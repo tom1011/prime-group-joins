@@ -31,3 +31,17 @@ SELECT COUNT("products") FROM "products";
 SELECT SUM("warehouse_product"."on_hand") FROM "products" 
 JOIN "warehouse_product" ON "warehouse_product"."product_id" = "products"."id" 
 WHERE "products"."description" = 'diet pepsi';
+
+--9. How much was the total cost for each order?
+SELECT SUM ("products"."unit_price") FROM "products" 
+JOIN "line_items" ON "line_items"."product_id" = "products"."id"
+GROUP BY "line_items"."order_id";
+
+-- 10. How much has each customer spent in total?
+SELECT SUM ("products"."unit_price") FROM "products" 
+JOIN "line_items" ON "line_items"."product_id" = "products"."id" 
+JOIN "orders" ON "line_items"."order_id" = "orders"."id" 
+JOIN "addresses" ON "addresses"."id" = "orders"."address_id" 
+JOIN "customers" ON "customers"."id" = "addresses"."customer_id"
+GROUP BY "customers"."first_name";
+
